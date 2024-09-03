@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import {  Lato } from "next/font/google";
 import "./globals.css";
 import { ReactNode } from "react";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
+
+const lato = Lato({ subsets: ["latin"] ,
+  weight: "400"
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +21,13 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={lato.className}>
+        <div >
+          <Header/>
+          {children}
+          <Footer/>
+          </div>
+          </body>
     </html>
   );
 }
