@@ -57,7 +57,7 @@ const SearchSection = () => {
     <Container background="bg-white">
       <div className="w-full h-14 flex justify-between items-center">
         <div className="w-fit flex justify-center items-center gap-10">
-          <h2 className="text-3xl">Ecommerce</h2>
+          <h2 className="text-3xl font-bold">Ecommerce</h2>
           <DropdownMenu>
             <DropdownMenuTrigger className="flex gap-2 items-center border-none">
               <h5 className="text-[#FB2E86]">Нүүр </h5>
@@ -74,18 +74,16 @@ const SearchSection = () => {
           </DropdownMenu>
           <h5>Ангилал</h5>
         </div>
-        <form className="w-30 h-8 flex items-center justify-center relative ">
+        <form className="w-30 h-8 flex items-center justify-between relative ">
           <input
             type="text"
             placeholder="Search..."
             className="w-full h-full px-4 pr-12 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <button
-            type="submit"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent border-none cursor-pointer"
-          >
-            <FaSearch className="text-gray-500" />
-          </button>
+
+          <div className="bg-[#FB2E86] w-8 h-8 flex justify-center items-center absolute right-0  cursor-pointer">
+            <FaSearch className="text-white  " />
+          </div>
         </form>
       </div>
     </Container>
