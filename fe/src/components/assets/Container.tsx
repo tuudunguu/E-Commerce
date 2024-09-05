@@ -1,10 +1,14 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 type PropsChildren = {
   children: ReactNode;
-  background: string
+  className: string;
 };
 
-export const Container = ({ children , background}: PropsChildren) => {
-  return <div className={background}><div className="max-w-[1240px] m-auto">{children}</div></div>;
+export const Container = ({ children, className }: PropsChildren) => {
+  return (
+    <div className={className}>
+      <div className={`max-w-[1040px] m-auto`}>{children}</div>
+    </div>
+  );
 };
