@@ -4,22 +4,22 @@ import { ProductCard } from './assets/ProductCard';
 const pruductCardData = [
   {
     title: 'The Prompt Magazine',
-    image: 'M.png',
+    image: 'hat.png',
     price: '120’000₮',
   },
   {
     title: 'Chunky Glyph Tee',
-    image: 'Ch.png',
+    image: 'hat.png',
     price: '120’000₮',
   },
   {
     title: 'All Smiles Nalgene',
-    image: 'smile.png',
+    image: 'hat.png',
     price: '120’000₮',
   },
   {
     title: 'Wildflower Hoodie',
-    image: 'wild.png',
+    image: 'hat.png',
     price: '120’000₮',
   },
 ];
@@ -27,16 +27,14 @@ const pruductCardData = [
 export const SecondProduct = () => {
   return (
     <Container className="bg-white">
-      <div className="w-full h-[442px] pt-12">
-        <div className="w-full h-[394px] flex justify-between">
+      <div className="w-full  pt-12">
+        <div className="w-full  flex gap-5">
           {pruductCardData.map((item, index) => (
             <ProductCard
               key={index}
               img={item.image}
               title={item.title}
               price={item.price}
-              heigth="334px"
-              className="w-[244px] h-[394px]"
             />
           ))}
         </div>
