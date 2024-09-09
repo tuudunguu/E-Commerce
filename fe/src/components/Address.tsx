@@ -35,7 +35,7 @@ export const Address = () => {
   };
 
   return (
-    <Container className="bg-white">
+    <Container className="bg-[#f6f6f6]">
       <div className="bg-white shadow-md rounded-lg p-6 w-full h-fit py-12  ">
         {/* Step Tracker */}
         <div className="flex justify-center mb-6">

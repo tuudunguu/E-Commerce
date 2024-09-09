@@ -5,11 +5,11 @@ import Link from 'next/link';
 
 export const UserInfo = () => {
   return (
-    <Container className="bg-white">
+    <Container className="bg-[#f6f6f6]">
       <div className="flex  rounded-lg p-6 w-full h-[764px] px-[78px] pt-[100px] pb-[74px]">
         {/* Sidebar */}
         <div className="w-1/4 border-r border-gray-200">
-          <ul className="space-y-4">
+          <ul className="flex flex-col gap-6">
             <li className="font-bold text-gray-800">Хэрэглэгчийн хэсэг</li>
             <Link href="/OrderHistory">
               <li className="text-gray-600">Захиалгын түүх</li>
@@ -23,7 +23,7 @@ export const UserInfo = () => {
             Хэрэглэгчийн хэсэг
           </h2>
 
-          <form className="space-y-4">
+          <form className="space-y-4 text-black">
             <div>
               <label className="block text-gray-700 mb-2">Овог:</label>
               <input

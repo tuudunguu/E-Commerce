@@ -50,7 +50,7 @@ export const Cart = () => {
   };
 
   return (
-    <Container className="bg-white">
+    <Container className="bg-[#f6f6f6]">
       <div className="rounded-lg  w-full h-fit px-[140px]  pb-[140px] pt-12">
         {/* Step Tracker */}
         <div className="flex justify-center mb-6">

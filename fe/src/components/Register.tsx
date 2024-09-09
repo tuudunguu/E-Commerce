@@ -31,7 +31,7 @@ export const Register = () => {
     passwordRequirements.hasSpecialChar;
 
   return (
-    <Container className="bg-white">
+    <Container className="bg-[#f6f6f6]">
       <div className="w-will h-fit  px-[353px] pt-24 pb-40">
         <div className="bg-white shadow-md rounded-lg p-4 w-full h-fit text-black">
           {/* Header */}

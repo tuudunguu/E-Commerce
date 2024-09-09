@@ -8,8 +8,6 @@ export default function () {
   return (
     <>
       <OnlyProduct />
-      <ReviewComponent />
-      <RelatedProducts />
     </>
   );
 }

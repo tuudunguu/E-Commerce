@@ -40,8 +40,12 @@ export const Header = () => {
           </form>
         </div>
         <div className="w-fit h-full flex items-center gap-4">
-          <FaRegHeart className="w-6 h-6 hover:text-blue-500 cursor-pointer  transform transition-transform duration-300 hover:scale-110" />
-          <IoCartOutline className="w-6 h-6 hover:text-blue-500 cursor-pointer  transform transition-transform duration-300 hover:scale-110" />
+          <Link href="/Save">
+            <FaRegHeart className="w-6 h-6 hover:text-blue-500 cursor-pointer  transform transition-transform duration-300 hover:scale-110" />
+          </Link>
+          <Link href="/CartOfproduct">
+            <IoCartOutline className="w-6 h-6 hover:text-blue-500 cursor-pointer  transform transition-transform duration-300 hover:scale-110" />
+          </Link>
           <Button className="border border-[#2563EB] bg-[#18181B]">
             Бүртгүүлэх
           </Button>

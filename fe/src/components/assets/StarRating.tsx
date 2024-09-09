@@ -1,6 +1,11 @@
 import React from 'react';
 
-export const StarRating = ({ rating, onClick }) => {
+type StarRatingProps = {
+  rating: number;
+  onClick: (value: number) => void;
+};
+
+export const StarRating = ({ rating, onClick }: StarRatingProps) => {
   return (
     <div className="flex">
       {[...Array(5)].map((_, index) => (

@@ -81,7 +81,7 @@ const pruductCardData = [
 
 export const ProductOfPage = () => {
   return (
-    <Container className="bg-white">
+    <Container className="bg-[#f6f6f6]">
       <div className="w-full grid grid-rows-5 grid-cols-4 gap-x-5 gap-y-12 pt-12 pb-20">
         <div className="w-full h-fit flex flex-col gap-10 row-span-5 col-span-1">
           <div className="w-full flex flex-col h-fit gap-4 text-black">

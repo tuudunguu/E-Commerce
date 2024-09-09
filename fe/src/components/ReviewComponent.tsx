@@ -1,33 +1,51 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { Container } from './assets/Container';
 
 import { StarRating } from './assets/StarRating';
 
-export const ReviewComponent = () => {
-  const [reviews, setReviews] = useState([
-    { name: 'Saraa', rating: 4.5, comment: 'Ваав материал ёстой гоё байна' },
-    { name: 'Saraa', rating: 4.5, comment: '🔥🔥🔥' },
-    // More reviews...
-  ]);
+type ReviewComponentProps = {
+  showReview: boolean;
+  reviews: {
+    name: string;
+    rating: number;
+    comment: string;
+  }[];
+  setReviews: Dispatch<
+    SetStateAction<
+      {
+        name: string;
+        rating: number;
+        comment: string;
+      }[]
+    >
+  >;
+  setNewRating: (value: number) => void;
 
-  const [newRating, setNewRating] = useState(0);
-  const [newComment, setNewComment] = useState('');
+  newRating: number;
+  newComment: string;
+  setNewComment: Dispatch<SetStateAction<string>>;
+  handleSubmit: () => void;
+};
 
-  const handleSubmit = () => {
-    const newReview = { name: 'User', rating: newRating, comment: newComment };
-    setReviews([...reviews, newReview]);
-    setNewRating(0);
-    setNewComment('');
-  };
-
-  const averageRating =
-    reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
-
+export const ReviewComponent = ({
+  showReview,
+  reviews,
+  setReviews,
+  setNewRating,
+  newRating,
+  newComment,
+  setNewComment,
+  handleSubmit,
+}: ReviewComponentProps) => {
   return (
-    <Container className="bg-white">
-      <div className="w-full flex">
+    <Container className="bg-[#f6f6f6]">
+      <div className="w-full flex ">
         <div className=" w-1/2"></div>
-        <div className=" w-1/2 flex flex-col items-start">
+        <div
+          className={
+            !showReview ? 'hidden' : ' w-1/2 flex flex-col items-start'
+          }
+        >
           {/* Review Form */}
           <div className="w-full mt-4 p-4 border border-dashed border-gray-300 rounded-lg">
             <div className="mb-3">
@@ -56,7 +74,9 @@ export const ReviewComponent = () => {
                 <strong className="text-black">{review.name}</strong>
                 <StarRating
                   rating={Math.round(review.rating)}
-                  onClick={() => {}}
+                  onClick={() => {
+                    setNewRating;
+                  }}
                 />
                 <p className="text-black">{review.comment}</p>
               </div>

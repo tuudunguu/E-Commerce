@@ -26,7 +26,7 @@ const pruductCardData = [
 
 export const SecondProduct = () => {
   return (
-    <Container className="bg-white">
+    <Container className="bg-[#f6f6f6]">
       <div className="w-full  pt-12">
         <div className="w-full  flex gap-5">
           {pruductCardData.map((item, index) => (

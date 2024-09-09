@@ -98,13 +98,12 @@ const pruductCardData = [
 
 export const GridProduct = () => {
   return (
-    <Container className="bg-white">
+    <Container className="bg-[#f6f6f6]">
       <div className="w-full grid grid-rows-6 grid-cols-4 pt-12 pb-20 gap-x-5 gap-y-12  [&>div:nth-child(7)]:row-span-2 [&>div:nth-child(7)]:col-span-2  [&>div:nth-child(8)]:row-span-2 [&>div:nth-child(8)]:col-span-2 [&>div:nth-child(8)]:pt-20">
         {pruductCardData.map((item, index) => {
           return (
-            <div   key={index} className="flex items-start h-fit">
+            <div key={index} className="flex items-start h-fit">
               <ProductCard
-              
                 img={item.image}
                 title={item.title}
                 price={item.price}

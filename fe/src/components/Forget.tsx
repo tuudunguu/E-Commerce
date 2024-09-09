@@ -4,17 +4,12 @@ import { Container } from './assets/Container';
 
 export const Forget = () => {
   return (
-    <Container className="bg-white">
+    <Container className="bg-[#f6f6f6]">
       <div className="w-will h-fit  px-[353px] pt-24 pb-40">
         <div className="bg-white shadow-md rounded-lg p-4 w-full h-fit text-black">
-          {/* Header */}
-
-          {/* Title */}
           <h2 className="text-2xl font-bold text-center mb-4">
             Нууц үг сэргээх
           </h2>
-
-          {/* Registration Form */}
           <form className="space-y-4">
             <input
               type="Email"
