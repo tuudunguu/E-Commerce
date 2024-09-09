@@ -39,7 +39,7 @@ export const OnlyProduct = ({
   const PriceOfProductAndHowMany = count * 120000;
 
   const handleClick = () => {
-    setShowReview(!showReview);
+    setShowReview((prev) => !prev); // Toggles review visibility
   };
 
   console.log('averageRating:', averageRating);
@@ -99,21 +99,19 @@ export const OnlyProduct = ({
             <div className="w-full h-fit flex flex-col items-start gap-2 text-black">
               <h4>Хэмжээний заавар</h4>
               <div className="w-full h-fit flex justify-start items-center gap-3">
-                {buttonSize.map((item, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className=" cursor-pointer"
-                      onClick={() => SetSelectedSize(item)}
+                {buttonSize.map((item, index) => (
+                  <div
+                    key={index}
+                    className="cursor-pointer"
+                    onClick={() => SetSelectedSize(item)}
+                  >
+                    <Button
+                      className={`rounded-full h-8 w-8 border border-black ${selectedSize === item ? 'bg-black text-white' : 'bg-white text-black'}`}
                     >
-                      <Button
-                        className={`rounded-full h-8 w-8 border border-black ${selectedSize === item ? 'bg-black text-white' : 'bg-white text-black'}`}
-                      >
-                        {item}
-                      </Button>
-                    </div>
-                  );
-                })}
+                      {item}
+                    </Button>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="w-full h-fit flex  items-center gap-2">
@@ -151,7 +149,7 @@ export const OnlyProduct = ({
                 бүгдийг харах
               </h5>
             </div>
-            <div className="w-full h-fit flex items-center gap-2 ">
+            <div className="w-full h-fit flex items-center gap-2">
               <div className="flex">
                 {[...Array(5)].map((_, index) => (
                   <span

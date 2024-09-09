@@ -7,29 +7,34 @@ import { useState, useEffect } from 'react';
 
 export default function () {
   const [showReview, setShowReview] = useState(false);
-
   const [averageRating, setAverageRating] = useState(0);
-
-  useEffect(() => {
-    const avgRating =
-      reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
-    setAverageRating(avgRating);
-  }, []);
-
+  const [newRating, setNewRating] = useState(3);
+  const [newComment, setNewComment] = useState('');
   const [reviews, setReviews] = useState([
     { name: 'Saraa', rating: 4.5, comment: 'Ваав материал ёстой гоё байна' },
     { name: 'Saraa', rating: 4.5, comment: '🔥🔥🔥' },
   ]);
 
-  const [newRating, setNewRating] = useState(3);
-  const [newComment, setNewComment] = useState('');
+  useEffect(() => {
+    if (reviews.length > 0) {
+      const avgRating =
+        reviews.reduce((acc, review) => acc + review.rating, 0) /
+        reviews.length;
+      setAverageRating(avgRating);
+    } else {
+      setAverageRating(0); // Handles empty review case
+    }
+  }, [reviews]);
 
   const handleSubmit = () => {
+    if (newRating === 0 || newComment.trim() === '') {
+      console.log('Please provide a valid rating and comment');
+      return;
+    }
     const newReview = { name: 'User', rating: newRating, comment: newComment };
     setReviews([...reviews, newReview]);
-    setNewRating(0);
-    setNewComment('');
-    console.log('rating:', newRating);
+    setNewRating(0); // Reset rating
+    setNewComment(''); // Reset comment
   };
 
   return (

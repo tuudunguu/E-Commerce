@@ -9,7 +9,7 @@ export const Opt = () => {
 
   const handleInputChange = (value, index) => {
     const newCode = [...code];
-    // Ensure only numbers are entered
+
     if (/^\d*$/.test(value)) {
       newCode[index] = value;
       setCode(newCode);

@@ -52,6 +52,7 @@ export const ReviewComponent = ({
               <label className="text-black">Одоор үнэлэх:</label>
               <StarRating rating={newRating} onClick={setNewRating} />
             </div>
+
             <div className="mb-3">
               <label className="text-black">Сэтгэгдэл үлдээх:</label>
               <textarea
@@ -61,6 +62,7 @@ export const ReviewComponent = ({
                 placeholder="Энд бичнэ үү"
               />
             </div>
+
             <button
               className="bg-[#2563EB] text-white py-2 px-4 rounded-lg"
               onClick={handleSubmit}
@@ -74,9 +76,7 @@ export const ReviewComponent = ({
                 <strong className="text-black">{review.name}</strong>
                 <StarRating
                   rating={Math.round(review.rating)}
-                  onClick={() => {
-                    setNewRating;
-                  }}
+                  onClick={() => {}}
                 />
                 <p className="text-black">{review.comment}</p>
               </div>
