@@ -10,8 +10,8 @@ export const Header = () => {
   return (
     <div className="w-screen h-[68px] px-6 py-4 bg-black">
       <div className=" h-full w-full flex justify-between items-center">
-        <div className="w-fit h-full flex items-center gap-4">
-          <Link href="/">
+        <div className="w-fit h-full flex items-center gap-5">
+          <Link href="/" className="flex items-center gap-3">
             <Image
               src="/Logo.png"
               alt="Logo of pinecone"
@@ -20,10 +20,11 @@ export const Header = () => {
               quality={100}
               className="cursor-pointer"
             />
+            <h5 className="cursor-pointer">ECOMMERCE</h5>
           </Link>
           <Link href="/Products">
             <h5 className="cursor-pointer hover:text-blue-500 transform transition-transform duration-300 hover:scale-110">
-              Бүтээгдэхүүн
+              Ангилал
             </h5>
           </Link>
         </div>
@@ -35,7 +36,7 @@ export const Header = () => {
             <input
               type="text"
               placeholder="     Search..."
-              className="w-full h-full px-4 pr-12 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#18181B]"
+              className="w-full h-full px-8 pr-12 rounded-2xl  bg-[#18181B]"
             />
           </form>
         </div>

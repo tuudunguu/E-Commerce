@@ -21,6 +21,7 @@ type showReviewProps = {
   averageRating: number;
   setAverageRating: (value: number) => void;
 };
+
 export const OnlyProduct = ({
   setShowReview,
   showReview,
@@ -39,7 +40,7 @@ export const OnlyProduct = ({
   const PriceOfProductAndHowMany = count * 120000;
 
   const handleClick = () => {
-    setShowReview((prev) => !prev); // Toggles review visibility
+    setShowReview(!showReview); // Toggles review visibility
   };
 
   console.log('averageRating:', averageRating);
@@ -146,7 +147,7 @@ export const OnlyProduct = ({
                 className="text-black hover:text-[#2563EB] cursor-pointer"
                 onClick={handleClick}
               >
-                бүгдийг харах
+                {showReview === false ? 'бүгдийг харах' : 'бүгдийг хураах'}
               </h5>
             </div>
             <div className="w-full h-fit flex items-center gap-2">

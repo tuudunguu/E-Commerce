@@ -37,6 +37,8 @@ export const ReviewComponent = ({
   setNewComment,
   handleSubmit,
 }: ReviewComponentProps) => {
+  const [hideForm, setHideForm] = useState(false);
+
   return (
     <Container className="bg-[#f6f6f6]">
       <div className="w-full flex ">
@@ -47,7 +49,21 @@ export const ReviewComponent = ({
           }
         >
           {/* Review Form */}
-          <div className="w-full mt-4 p-4 border border-dashed border-gray-300 rounded-lg">
+          <div className="w-full mt-4">
+            {reviews.map((review, index) => (
+              <div key={index} className="mb-4 pb-2 border-b border-gray-300">
+                <strong className="text-black">{review.name}</strong>
+                <StarRating
+                  rating={Math.round(review.rating)}
+                  onClick={() => {}}
+                />
+                <p className="text-black">{review.comment}</p>
+              </div>
+            ))}
+          </div>
+          <div
+            className={`w-full mt-4 p-4 border border-dashed border-gray-300 rounded-lg ${hideForm === true ? 'hidden' : ''}`}
+          >
             <div className="mb-3">
               <label className="text-black">Одоор үнэлэх:</label>
               <StarRating rating={newRating} onClick={setNewRating} />
@@ -65,22 +81,13 @@ export const ReviewComponent = ({
 
             <button
               className="bg-[#2563EB] text-white py-2 px-4 rounded-lg"
-              onClick={handleSubmit}
+              onClick={() => {
+                handleSubmit();
+                setHideForm(!hideForm);
+              }}
             >
               Үнэлэх
             </button>
-          </div>
-          <div className="w-full mt-4">
-            {reviews.map((review, index) => (
-              <div key={index} className="mb-4 pb-2 border-b border-gray-300">
-                <strong className="text-black">{review.name}</strong>
-                <StarRating
-                  rating={Math.round(review.rating)}
-                  onClick={() => {}}
-                />
-                <p className="text-black">{review.comment}</p>
-              </div>
-            ))}
           </div>
         </div>
       </div>
