@@ -1,6 +1,6 @@
 'use client';
 
-import { Cart } from '@/components/Cart';
+import { OrderHistory } from '@/components/OrderHistory';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
@@ -8,7 +8,7 @@ export default function () {
   return (
     <>
       <Header />
-      <Cart />
+      <OrderHistory />
       <Footer />
     </>
   );

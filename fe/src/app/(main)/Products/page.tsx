@@ -1,14 +1,12 @@
-'use client';
-
-import { Cart } from '@/components/Cart';
+import { ProductOfPage } from '@/components/ProductOfPage';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
-export default function () {
+export default function Home() {
   return (
     <>
       <Header />
-      <Cart />
+      <ProductOfPage />;
       <Footer />
     </>
   );
