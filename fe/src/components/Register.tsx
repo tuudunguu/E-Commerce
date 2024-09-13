@@ -3,9 +3,14 @@
 import { Container } from './assets/Container';
 import { useState } from 'react';
 import Link from 'next/link';
+import { useAuth } from './context/auth.provider';
 
 export const Register = () => {
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const { register } = useAuth();
+
   const [passwordRequirements, setPasswordRequirements] = useState({
     hasUppercase: false,
     hasLowercase: false,
@@ -13,7 +18,7 @@ export const Register = () => {
     hasSpecialChar: false,
   });
 
-  const validatePassword = (password) => {
+  const validatePassword = (password: string) => {
     const requirements = {
       hasUppercase: /[A-Z]/.test(password),
       hasLowercase: /[a-z]/.test(password),
@@ -50,17 +55,26 @@ export const Register = () => {
               type="text"
               placeholder="Нэр"
               className="w-full border border-gray-300 rounded-md p-2"
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
             />
             <input
               type="email"
               placeholder="Имэйл хаяг"
               className="w-full border border-gray-300 rounded-md p-2"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
             />
             <input
               type="password"
               placeholder="Нууц үг"
               className="w-full border border-gray-300 rounded-md p-2"
-              onChange={(e) => validatePassword(e.target.value)}
+              onChange={(e) => {
+                validatePassword(e.target.value);
+                setPassword(e.target.value);
+              }}
             />
             <input
               type="password"
@@ -111,7 +125,10 @@ export const Register = () => {
             )}
 
             {/* Submit Button */}
-            <button className="bg-black text-white w-full py-2 rounded-md mt-4">
+            <button
+              className="bg-black text-white w-full py-2 rounded-md mt-4"
+              onClick={() => register(email, password, name)}
+            >
               Үүсгэх
             </button>
           </form>
