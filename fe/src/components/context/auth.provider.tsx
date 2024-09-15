@@ -5,7 +5,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState, createContext, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { ReactNode } from 'react';
-import Error from 'next/error';
 
 // Define the shape of the user object with possible properties (id, name, email)
 type UserType = {
@@ -37,21 +36,29 @@ export const AuthProvider = ({ children }: PropsChildren) => {
   const [user, setUser] = useState<UserType | null>(null); // user can be null or UserType
   const [isReady, setIsReady] = useState(false);
 
+  // Login function
   const login = async (name: string, password: string) => {
     try {
       const res = await api.post('/user/login', { name, password });
+
+      console.log('res', res);
 
       localStorage.setItem('token', res.data.token);
 
       setUser(res.data.user);
 
-      router.push('/');
+      // Show success toast and redirect to home after a slight delay
+      toast.success('Login successful');
+      setTimeout(() => {
+        router.push('/');
+      }, 1000); // 1-second delay
     } catch (err: any) {
       console.log(err);
-      toast.error(err.message);
+      toast.error('Invalid credentials');
     }
   };
 
+  // Register function
   const register = async (email: string, password: string, name: string) => {
     try {
       await api.post('/user/create', {
@@ -60,13 +67,18 @@ export const AuthProvider = ({ children }: PropsChildren) => {
         password,
       });
 
-      router.push('/Login');
+      // Show success toast and redirect to login after a slight delay
+      toast.success('Registration successful! Please login.');
+      setTimeout(() => {
+        router.push('/Login');
+      }, 1000); // 1-second delay
     } catch (err: any) {
       console.log(err);
-      toast.error(err?.response?.data?.message);
+      toast.error(err?.response?.data?.message || 'Registration failed');
     }
   };
 
+  // Load user data when token is available
   useEffect(() => {
     const loadUser = async () => {
       try {
@@ -84,7 +96,6 @@ export const AuthProvider = ({ children }: PropsChildren) => {
 
         setUser(res.data);
       } catch (err) {
-        console.log(err, 'KKKK');
         localStorage.removeItem('token');
         toast.error('Your session has expired. Please login again.');
       } finally {
@@ -95,6 +106,7 @@ export const AuthProvider = ({ children }: PropsChildren) => {
     loadUser();
   }, []);
 
+  // Protect routes from unauthorized access
   useEffect(() => {
     if (authPaths.includes(pathname)) return;
 
@@ -105,6 +117,7 @@ export const AuthProvider = ({ children }: PropsChildren) => {
     router.push('/Login');
   }, [pathname, user, isReady]);
 
+  // Wait until user data is ready
   if (!isReady) return null;
 
   return (
