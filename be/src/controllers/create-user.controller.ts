@@ -7,14 +7,13 @@ export const createUserController: RequestHandler = async (req, res) => {
     const { name, email, password } = req.body;
     console.log('req.body:', req.body);
 
-    // Hash the password before saving
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     await userModel.create({
       name: name,
       email: email,
-      password: hashedPassword, // Save the hashed password
+      password: hashedPassword,
       createdAt: new Date(),
       updatedAt: new Date(),
     });

@@ -47,7 +47,10 @@ export const Login = () => {
 
             <button
               className="bg-black text-white w-full py-2 rounded-md mt-4"
-              onClick={() => login(name, password)}
+              onClick={(e) => {
+                e.preventDefault();
+                login(name, password);
+              }}
             >
               Нэвтрэх
             </button>

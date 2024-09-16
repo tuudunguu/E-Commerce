@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import {
-  getUserController,
+  loginUserController,
   createUserController,
   getUserByIdController,
 } from '../controllers';
@@ -9,7 +9,7 @@ const userRouter = Router();
 
 userRouter
   .post('/create', createUserController)
-  .get('/get', getUserController)
+  .post('/login', loginUserController)
   .get('/:id', getUserByIdController);
 
 export { userRouter };

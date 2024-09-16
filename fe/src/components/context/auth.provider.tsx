@@ -6,14 +6,12 @@ import { useEffect, useState, createContext, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { ReactNode } from 'react';
 
-// Define the shape of the user object with possible properties (id, name, email)
 type UserType = {
   id: string;
   name: string;
   email: string;
 };
 
-// Allow the user to be either null or the correct object type
 type AuthContextType = {
   user: UserType | null;
   login: (email: string, password: string) => Promise<void>;
@@ -26,40 +24,40 @@ const authPaths = ['/Login', '/Register'];
 
 type PropsChildren = {
   children: ReactNode;
-  className?: string; // Made className optional if it's not always used
+  className?: string;
 };
 
 export const AuthProvider = ({ children }: PropsChildren) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const [user, setUser] = useState<UserType | null>(null); // user can be null or UserType
+  const [user, setUser] = useState<UserType | null>(null);
   const [isReady, setIsReady] = useState(false);
+
+  console.log('user:', user);
 
   // Login function
   const login = async (name: string, password: string) => {
     try {
       const res = await api.post('/user/login', { name, password });
 
-      console.log('res', res);
-
       localStorage.setItem('token', res.data.token);
 
       setUser(res.data.user);
 
-      // Show success toast and redirect to home after a slight delay
+      console.log('res:', res);
+
       toast.success('Login successful');
-      setTimeout(() => {
-        router.push('/');
-      }, 1000); // 1-second delay
+
+      router.push('/');
     } catch (err: any) {
       console.log(err);
       toast.error('Invalid credentials');
     }
   };
 
-  // Register function
   const register = async (email: string, password: string, name: string) => {
+    console.log('password', password);
     try {
       await api.post('/user/create', {
         name,
@@ -67,18 +65,14 @@ export const AuthProvider = ({ children }: PropsChildren) => {
         password,
       });
 
-      // Show success toast and redirect to login after a slight delay
       toast.success('Registration successful! Please login.');
-      setTimeout(() => {
-        router.push('/Login');
-      }, 1000); // 1-second delay
+      router.push('/Login');
     } catch (err: any) {
       console.log(err);
       toast.error(err?.response?.data?.message || 'Registration failed');
     }
   };
 
-  // Load user data when token is available
   useEffect(() => {
     const loadUser = async () => {
       try {
@@ -86,9 +80,11 @@ export const AuthProvider = ({ children }: PropsChildren) => {
 
         const token = localStorage.getItem('token');
 
+        console.log('token', token);
+
         if (!token) return;
 
-        const res = await api.get('/users/me', {
+        const res = await api.get('/user/me', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -96,6 +92,7 @@ export const AuthProvider = ({ children }: PropsChildren) => {
 
         setUser(res.data);
       } catch (err) {
+        console.log('err:', err);
         localStorage.removeItem('token');
         toast.error('Your session has expired. Please login again.');
       } finally {
@@ -106,7 +103,6 @@ export const AuthProvider = ({ children }: PropsChildren) => {
     loadUser();
   }, []);
 
-  // Protect routes from unauthorized access
   useEffect(() => {
     if (authPaths.includes(pathname)) return;
 
@@ -117,7 +113,6 @@ export const AuthProvider = ({ children }: PropsChildren) => {
     router.push('/Login');
   }, [pathname, user, isReady]);
 
-  // Wait until user data is ready
   if (!isReady) return null;
 
   return (

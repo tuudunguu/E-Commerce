@@ -3,16 +3,10 @@ import { userModel } from '../models/user.schema';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-export const getUserController: RequestHandler = async (req, res) => {
-  console.log('Received request:', req.body); // Debugging request body
-
+export const loginUserController: RequestHandler = async (req, res) => {
   const { name, password } = req.body;
 
-  if (!name || !password) {
-    return res.status(400).json({ message: 'Missing credentials' });
-  }
-
-  console.log('login name', name); // Debugging name value
+  console.log(req.body);
 
   try {
     const user = await userModel.findOne({ name });
@@ -28,17 +22,15 @@ export const getUserController: RequestHandler = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { username: user.name, email: user.email, id: user._id },
+      { name: user.name, email: user.email, id: user._id },
       process.env.JWT_SECRET as string
     );
 
-    return res
-      .status(200)
-      .json({
-        message: 'Login successful',
-        token,
-        user: { username: user.name, email: user.email, id: user._id },
-      });
+    return res.status(200).json({
+      message: 'Login successful',
+      token,
+      user: { username: user.name, email: user.email, id: user._id },
+    });
   } catch (error) {
     console.error('Error logging in:', error);
     return res.status(500).json({ message: 'Internal server error' });
