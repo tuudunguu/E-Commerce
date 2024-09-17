@@ -5,11 +5,11 @@ import {
   getUserByIdController,
 } from '../controllers';
 
-const userRouter = Router();
+const authRouter = Router();
 
-userRouter
+authRouter
   .post('/create', createUserController)
   .post('/login', loginUserController)
   .get('/:id', getUserByIdController);
 
-export { userRouter };
+export { authRouter };

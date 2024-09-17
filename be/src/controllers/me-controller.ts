@@ -18,6 +18,8 @@ const getMe = async (
   try {
     const user = req.user;
 
+    console.log('user:', user);
+
     res.json(user);
   } catch (error) {
     console.log(error);

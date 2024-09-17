@@ -6,8 +6,6 @@ import jwt from 'jsonwebtoken';
 export const loginUserController: RequestHandler = async (req, res) => {
   const { name, password } = req.body;
 
-  console.log(req.body);
-
   try {
     const user = await userModel.findOne({ name });
 

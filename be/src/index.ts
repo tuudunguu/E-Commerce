@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import { connectToDatabase } from './database';
-import { userRouter } from './routes';
+import { authRouter } from './routes';
 import { authMiddleware } from './middlewares/auth.middlewares';
 import * as dotenv from 'dotenv';
+import { userRouter } from './routes/Me.router';
 
 dotenv.config(); // Load environment variables from .env file
 
@@ -13,8 +14,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-// app.use(authMiddleware);
+app.use(authMiddleware);
 
+app.use('/auth', authRouter);
 app.use('/user', userRouter);
 
 app.listen(3001, () => {

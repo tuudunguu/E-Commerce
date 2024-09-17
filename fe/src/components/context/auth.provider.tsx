@@ -34,12 +34,10 @@ export const AuthProvider = ({ children }: PropsChildren) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [isReady, setIsReady] = useState(false);
 
-  console.log('user:', user);
-
   // Login function
   const login = async (name: string, password: string) => {
     try {
-      const res = await api.post('/user/login', { name, password });
+      const res = await api.post('/auth/login', { name, password });
 
       localStorage.setItem('token', res.data.token);
 
@@ -59,7 +57,7 @@ export const AuthProvider = ({ children }: PropsChildren) => {
   const register = async (email: string, password: string, name: string) => {
     console.log('password', password);
     try {
-      await api.post('/user/create', {
+      await api.post('/auth/create', {
         name,
         email,
         password,
@@ -80,8 +78,6 @@ export const AuthProvider = ({ children }: PropsChildren) => {
 
         const token = localStorage.getItem('token');
 
-        console.log('token', token);
-
         if (!token) return;
 
         const res = await api.get('/user/me', {
@@ -89,6 +85,8 @@ export const AuthProvider = ({ children }: PropsChildren) => {
             Authorization: `Bearer ${token}`,
           },
         });
+
+        console.log(res, 'getme');
 
         setUser(res.data);
       } catch (err) {
