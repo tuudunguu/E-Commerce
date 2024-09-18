@@ -8,7 +8,7 @@ type ProductImagesProps = {
 
 const ProductImages = ({ images, onAddImage }: ProductImagesProps) => {
   return (
-    <div className="p-4 rounded-lg shadow-lg bg-white w-full max-w-full">
+    <div className="p-4 rounded-lg shadow-lg bg-white w-full h-full">
       {/* Label */}
       <label className="block text-gray-700 font-medium mb-4">
         Бүтээгдэхүүний зураг

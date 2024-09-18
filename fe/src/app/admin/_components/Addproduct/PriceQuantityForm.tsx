@@ -14,13 +14,13 @@ const PriceQuantityForm = ({
   onQuantityChange,
 }: PriceQuantityFormProps) => {
   return (
-    <div className="p-4 rounded-lg shadow-lg bg-white w-full max-w-full">
+    <div className="p-4 rounded-lg shadow-lg bg-white w-full h-full">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Price Input */}
         <div>
           <label
             htmlFor="price"
-            className="block text-gray-700 font-medium mb-2"
+            className="block text-gray-700  mb-2 font-semibold"
           >
             Үндсэн үнэ
           </label>
@@ -39,7 +39,7 @@ const PriceQuantityForm = ({
         <div>
           <label
             htmlFor="quantity"
-            className="block text-gray-700 font-medium mb-2"
+            className="block text-gray-700 font-semibold mb-2"
           >
             Үлдэгдэл тоо ширхэг
           </label>
