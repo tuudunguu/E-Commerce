@@ -1,14 +1,7 @@
-'use client';
+import { AdminDashboard } from '../_components/AdminDashboard';
 
-import { AdminContainer } from '../_components/assets/AdminContainer';
-import { IncomeAndOrder } from '../_components/IncomeAndOrder';
+const AdminDashboardPage = async () => {
+  return <AdminDashboard />;
+};
 
-export default function () {
-  return (
-    <AdminContainer className="bg-white">
-      <div>
-        <IncomeAndOrder />
-      </div>
-    </AdminContainer>
-  );
-}
+export default AdminDashboardPage;

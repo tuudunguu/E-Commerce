@@ -1,5 +1,9 @@
-'use client';
+import { AdminAddProduct } from '../_components/AdminAddProduct';
 
 export default function () {
-  return <></>;
+  return (
+    <>
+      <AdminAddProduct />
+    </>
+  );
 }

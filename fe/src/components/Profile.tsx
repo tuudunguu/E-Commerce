@@ -1,3 +1,12 @@
+import React from 'react';
+
+// Define the types for the component's props
+interface ProfileProps {
+  username: string;
+  imageUrl: string;
+  fallbackText: string;
+}
+
 import {
   Sheet,
   SheetContent,
@@ -9,22 +18,27 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-export const Profile = ({ tag }) => {
+// Define the Profile component using the ProfileProps type
+export const Profile: React.FC<ProfileProps> = ({
+  username,
+  imageUrl,
+  fallbackText,
+}) => {
   return (
     <Sheet>
-      <SheetTrigger>
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>{tag}</AvatarFallback>
-        </Avatar>
+      {/* Wrapping SheetTrigger in a span to avoid TypeScript error */}
+      <SheetTrigger asChild>
+        <span>
+          <Avatar>
+            <AvatarImage src={imageUrl} />
+            <AvatarFallback>{fallbackText}</AvatarFallback>
+          </Avatar>
+        </span>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
-          <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </SheetDescription>
+          <SheetTitle>Welcome, {username}!</SheetTitle>
+          <SheetDescription>This is your profile sheet.</SheetDescription>
         </SheetHeader>
       </SheetContent>
     </Sheet>

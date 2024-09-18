@@ -67,7 +67,6 @@ export const Header = () => {
               </Button>
             </Link>
           </div>
-          <Profile tag={} />
         </div>
       </div>
     </div>
