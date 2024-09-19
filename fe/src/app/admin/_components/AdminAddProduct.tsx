@@ -11,23 +11,38 @@ import TypeSelector from './Addproduct/TypeSelecter';
 import { Button } from '@/components/ui/button';
 import { api } from '@/lib';
 
+type SizeItem = {
+  size: string;
+  quantity: number;
+};
+
 export const AdminAddProduct = () => {
-  // Product Section
   const [productName, setProductName] = useState('');
   const [additionalInfo, setAdditionalInfo] = useState('');
   const [price, setPrice] = useState<string>('');
   const [quantity, setQuantity] = useState<string>('');
-  const [images, setImages] = useState<string[]>(['', '', '']); // Initial empty placeholders
+  const [images, setImages] = useState<string[]>(['', '', '']);
   const [mainCategory, setMainCategory] = useState<string>('');
-  const [size, setSize] = useState<string[]>(['']);
+  const [sizes, setSizes] = useState<SizeItem[]>([]); // Array of objects for size and quantity
 
-  console.log('size', size);
+  console.log('sizes', sizes);
+
   const handleAddImage = () => {
     setImages([...images, '']);
   };
 
-  const handleAddSize = (item: string) => {
-    setSize([...size, item]);
+  const handleAddSize = (size: string) => {
+    if (sizes.some((s) => s.size === size)) {
+      setSizes(sizes.filter((s) => s.size !== size));
+    } else {
+      setSizes([...sizes, { size, quantity: 0 }]);
+    }
+  };
+
+  const handleSizeQuantityChange = (size: string, quantity: number) => {
+    setSizes(
+      sizes.map((s) => (s.size === size ? { ...s, quantity } : s)) // Update the quantity for the selected size
+    );
   };
 
   // Category section
@@ -39,7 +54,6 @@ export const AdminAddProduct = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [Authorization, setAuthorization] = useState<string | null>(null);
 
-  // Fetch the token on component mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setAuthorization(localStorage.getItem('token'));
@@ -85,7 +99,7 @@ export const AdminAddProduct = () => {
       price,
       quantity,
       mainCategory,
-      size,
+      sizes, // Passing sizes with quantities
     };
 
     try {
@@ -132,14 +146,14 @@ export const AdminAddProduct = () => {
           <div className="col-span-1 row-span-4">
             <TypeSelector
               onAddSize={handleAddSize}
-              size={size}
-              setSize={setSize}
+              onSizeQuantityChange={handleSizeQuantityChange} // Pass the handler for quantity change
+              sizes={sizes}
             />
           </div>
           <div className="col-span-1 row-span-4">
             <ProductImages images={images} onAddImage={handleAddImage} />
           </div>
-          <div className="col-span-1 row-span-2 ">
+          <div className="col-span-1 row-span-2">
             <PriceQuantityForm
               price={price}
               quantity={quantity}
