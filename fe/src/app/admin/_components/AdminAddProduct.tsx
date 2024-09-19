@@ -19,36 +19,32 @@ export const AdminAddProduct = () => {
   const [quantity, setQuantity] = useState<string>('');
   const [images, setImages] = useState<string[]>(['', '', '']); // Initial empty placeholders
   const [mainCategory, setMainCategory] = useState<string>('');
+  const [size, setSize] = useState<string[]>(['']);
 
+  console.log('size', size);
   const handleAddImage = () => {
     setImages([...images, '']);
   };
-  // const createRecord = async () => {
 
-  //   const newProduct = { productName, additionalInfo, images, price, quantity , productCode };
-
-  //   try {
-  //     console.log("Creating record:", newRecord); // Debug log
-  //     const response = await api.post(
-  //       "http://localhost:3001/records",
-  //       newRecord,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${Authorization}`,
-  //         },
-  //       }
-  //     );
-  //     console.log("Created record:", response.data); // Debug log
-  //     setRecord([...record, response.data]);
-  //   } catch (error) {
-  //     console.error("Error creating record:", error); // Debug log
-  //   }
+  const handleAddSize = (item: string) => {
+    setSize([...size, item]);
+  };
 
   // Category section
+  type Category = {
+    _id: string;
+    name: string;
+  };
 
-  const [categories, setCategories] = useState<string[]>(['', '', '']);
-  const Authorization =
-    typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [Authorization, setAuthorization] = useState<string | null>(null);
+
+  // Fetch the token on component mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setAuthorization(localStorage.getItem('token'));
+    }
+  }, []);
 
   useEffect(() => {
     const getCategoriesData = async () => {
@@ -58,7 +54,7 @@ export const AdminAddProduct = () => {
       }
 
       try {
-        const response = await api.get('http://localhost:3001/categories', {
+        const response = await api.get('http://localhost:3001/category/get', {
           headers: {
             Authorization: `Bearer ${Authorization}`,
           },
@@ -69,8 +65,45 @@ export const AdminAddProduct = () => {
         console.error('Error fetching categories:', error);
       }
     };
-    getCategoriesData();
+
+    if (Authorization) {
+      getCategoriesData();
+    }
   }, [Authorization]);
+
+  // Create record function for submitting product
+  const createRecord = async () => {
+    if (!Authorization) {
+      console.error('Authorization token is missing');
+      return;
+    }
+
+    const newProduct = {
+      productName,
+      additionalInfo,
+      images,
+      price,
+      quantity,
+      mainCategory,
+      size,
+    };
+
+    try {
+      const response = await api.post(
+        'http://localhost:3001/products',
+        newProduct,
+        {
+          headers: {
+            Authorization: `Bearer ${Authorization}`,
+          },
+        }
+      );
+
+      console.log('Created product:', response.data);
+    } catch (error) {
+      console.error('Error creating product:', error);
+    }
+  };
 
   return (
     <AdminContainer className="bg-[#F7F7F8]">
@@ -92,12 +125,16 @@ export const AdminAddProduct = () => {
           <div className="col-span-1 row-span-5">
             <CategorySelector
               mainCategory={mainCategory}
-              Categories={Categories}
+              Categories={categories}
               onMainCategoryChange={(e) => setMainCategory(e.target.value)}
             />
           </div>
           <div className="col-span-1 row-span-4">
-            <TypeSelector onAddSize={handleAddSize} onAddType={handleAddType} />
+            <TypeSelector
+              onAddSize={handleAddSize}
+              size={size}
+              setSize={setSize}
+            />
           </div>
           <div className="col-span-1 row-span-4">
             <ProductImages images={images} onAddImage={handleAddImage} />
@@ -112,7 +149,12 @@ export const AdminAddProduct = () => {
           </div>
         </div>
         <div className="w-full h-fit flex justify-end items-center pr-6">
-          <Button className="w-32 h-14 text-lg font-semibold">Ниитлэх</Button>
+          <Button
+            className="w-32 h-14 text-lg font-semibold"
+            onClick={createRecord}
+          >
+            Ниитлэх
+          </Button>
         </div>
       </div>
     </AdminContainer>

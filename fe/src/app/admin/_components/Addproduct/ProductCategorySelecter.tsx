@@ -1,18 +1,20 @@
 // components/CategorySelector.tsx
 import React from 'react';
 
+type Category = {
+  _id: string;
+  name: string;
+};
 type CategorySelectorProps = {
   mainCategory: string;
-  Categories: string[];
+  Categories: Category[];
 
   onMainCategoryChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 const CategorySelector = ({
   mainCategory,
-
   Categories,
-
   onMainCategoryChange,
 }: CategorySelectorProps) => {
   return (
@@ -33,9 +35,9 @@ const CategorySelector = ({
           aria-label="Main Category"
         >
           <option value="">Сонгох</option>
-          {Categories.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
+          {Categories.map((item) => (
+            <option key={item._id} value={item.name}>
+              {item.name}
             </option>
           ))}
         </select>

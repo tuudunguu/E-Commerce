@@ -3,7 +3,7 @@ import {
   loginUserController,
   createUserController,
   getUserByIdController,
-} from '../controllers';
+} from '../controllers/user';
 
 const authRouter = Router();
 

@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { userModel } from '../models/user.schema';
+import { userModel } from '../../models';
 
 export const getUserByIdController: RequestHandler = async (req, res) => {
   const { id } = req.params;

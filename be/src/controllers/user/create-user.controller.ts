@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { userModel } from '../models/user.schema';
+import { userModel } from '../../models/user.schema';
 import bcrypt from 'bcrypt';
 
 export const createUserController: RequestHandler = async (req, res) => {
