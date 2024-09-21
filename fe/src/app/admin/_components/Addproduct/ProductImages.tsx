@@ -1,12 +1,57 @@
-// components/ProductImages.tsx
+'use client'; // Add this to ensure the component is treated as a client-side component
+
 import React from 'react';
+import { api } from '@/lib'; // Assuming you're using axios through an api instance
 
 type ProductImagesProps = {
-  images: string[];
-  onAddImage: () => void;
+  images: string[]; // Array of image URLs
+  setImages: (images: string[]) => void; // Function to update the images array
+  Authorization: string | null; // Authorization token from parent component
 };
 
-const ProductImages = ({ images, onAddImage }: ProductImagesProps) => {
+const ProductImages = ({
+  images,
+  setImages,
+  Authorization,
+}: ProductImagesProps) => {
+  // Function to handle image upload to Cloudinary (using axios)
+  const handleAddImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+
+      // Create FormData object to handle file upload
+      const formData = new FormData();
+      formData.append('image', file);
+
+      try {
+        // Ensure Authorization is available
+        if (!Authorization) {
+          console.error('Authorization token is missing');
+          return;
+        }
+
+        // Use axios (via api) to upload the image to Cloudinary
+        const response = await api.post(
+          'http://localhost:3001/upload',
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${Authorization}`,
+              'Content-Type': 'multipart/form-data', // Set multipart for file upload
+            },
+          }
+        );
+
+        const imageUrl = response.data.secure_url;
+
+        // Add the returned image URL to the images array
+        setImages([...images, imageUrl]);
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
+    }
+  };
+
   return (
     <div className="p-4 rounded-lg shadow-lg bg-white w-full h-full">
       {/* Label */}
@@ -21,54 +66,16 @@ const ProductImages = ({ images, onAddImage }: ProductImagesProps) => {
             key={index}
             className="w-24 h-24 border-2 border-dashed border-gray-300 flex justify-center items-center rounded-md"
           >
-            {image ? (
-              <img
-                src={image}
-                alt={`product image ${index + 1}`}
-                className="object-cover w-full h-full rounded-md"
-              />
-            ) : (
-              <div className="text-gray-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                  className="w-8 h-8"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 5v.01M12 12v7m-4-4h8M5 12H4.5m14.5 0H19M3 16l6-6 3 3 4-4 5 5"
-                  />
-                </svg>
-              </div>
-            )}
+            <img src={image} alt={`Product ${index}`} />
           </div>
         ))}
 
         {/* Add Image Button */}
-        <button
-          onClick={onAddImage}
-          className="w-24 h-24 flex justify-center items-center rounded-full bg-gray-200 hover:bg-gray-300"
-          aria-label="Add Image"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="2"
-            stroke="currentColor"
-            className="w-8 h-8 text-gray-600"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 5v14m7-7H5"
-            />
-          </svg>
-        </button>
+        <input
+          type="file"
+          onChange={handleAddImage} // Trigger Cloudinary upload and update state
+          className="w-24 h-24 flex justify-center items-center bg-gray-200 hover:bg-gray-300"
+        />
       </div>
     </div>
   );

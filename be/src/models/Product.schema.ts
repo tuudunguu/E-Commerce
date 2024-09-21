@@ -7,6 +7,27 @@ const productSchema = new Schema({
     required: true,
   },
 
+  description: {
+    type: String,
+    required: true,
+  },
+
+  images: [String],
+
+  price: { type: Number, required: true },
+
+  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+
+  sizes: [
+    {
+      size: { type: String, required: true },
+      quantity: { type: Number, required: true },
+    },
+  ],
+  quantity: {
+    type: Number,
+  },
+
   createdAt: {
     type: Date,
     required: true,

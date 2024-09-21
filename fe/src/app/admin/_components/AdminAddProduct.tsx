@@ -1,4 +1,4 @@
-'use client';
+'use client'; // This tells Next.js that the component should run on the client-side
 
 import ProductForm from './Addproduct/ProductName';
 import { AdminContainer } from './assets/AdminContainer';
@@ -10,6 +10,7 @@ import PriceQuantityForm from './Addproduct/PriceQuantityForm';
 import TypeSelector from './Addproduct/TypeSelecter';
 import { Button } from '@/components/ui/button';
 import { api } from '@/lib';
+import axios from 'axios';
 
 type SizeItem = {
   size: string;
@@ -18,17 +19,43 @@ type SizeItem = {
 
 export const AdminAddProduct = () => {
   const [productName, setProductName] = useState('');
-  const [additionalInfo, setAdditionalInfo] = useState('');
+  const [description, setDescription] = useState('');
   const [price, setPrice] = useState<string>('');
-  const [quantity, setQuantity] = useState<string>('');
-  const [images, setImages] = useState<string[]>(['', '', '']);
+  const [images, setImages] = useState<string[]>([]); // This stores URLs of uploaded images
   const [mainCategory, setMainCategory] = useState<string>('');
-  const [sizes, setSizes] = useState<SizeItem[]>([]); // Array of objects for size and quantity
+  const [sizes, setSizes] = useState<SizeItem[]>([]);
+
+  const sumOfSizesQuantity = sizes.reduce(
+    (total: number, size: { quantity: number }) => {
+      return total + size.quantity;
+    },
+    0
+  );
 
   console.log('sizes', sizes);
 
-  const handleAddImage = () => {
-    setImages([...images, '']);
+  // Handle Cloudinary image upload
+  const uploadImageToCloudinary = async (file: File) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    // Upload the image to your backend route that handles Cloudinary
+    const response = await axios.post('http://localhost:3001/upload', formData);
+
+    // Return the URL of the uploaded image from Cloudinary
+    return response.data.secure_url;
+  };
+
+  const handleAddImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+
+      // Upload the selected image to Cloudinary
+      const imageUrl = await uploadImageToCloudinary(file);
+
+      // Add the returned image URL to the images array
+      setImages([...images, imageUrl]);
+    }
   };
 
   const handleAddSize = (size: string) => {
@@ -40,9 +67,7 @@ export const AdminAddProduct = () => {
   };
 
   const handleSizeQuantityChange = (size: string, quantity: number) => {
-    setSizes(
-      sizes.map((s) => (s.size === size ? { ...s, quantity } : s)) // Update the quantity for the selected size
-    );
+    setSizes(sizes.map((s) => (s.size === size ? { ...s, quantity } : s)));
   };
 
   // Category section
@@ -94,17 +119,16 @@ export const AdminAddProduct = () => {
 
     const newProduct = {
       productName,
-      additionalInfo,
-      images,
+      description,
+      images, // Now contains URLs from Cloudinary
       price,
-      quantity,
       mainCategory,
-      sizes, // Passing sizes with quantities
+      sizes,
     };
 
     try {
       const response = await api.post(
-        'http://localhost:3001/products',
+        'http://localhost:3001/product/create',
         newProduct,
         {
           headers: {
@@ -131,9 +155,9 @@ export const AdminAddProduct = () => {
           <div className="col-span-1 row-span-6">
             <ProductForm
               productName={productName}
-              additionalInfo={additionalInfo}
+              description={description}
               onNameChange={(e) => setProductName(e.target.value)}
-              onInfoChange={(e) => setAdditionalInfo(e.target.value)}
+              onInfoChange={(e) => setDescription(e.target.value)}
             />
           </div>
           <div className="col-span-1 row-span-5">
@@ -151,14 +175,17 @@ export const AdminAddProduct = () => {
             />
           </div>
           <div className="col-span-1 row-span-4">
-            <ProductImages images={images} onAddImage={handleAddImage} />
+            <ProductImages
+              images={images} // Pass the image URLs to ProductImages component
+              setImages={setImages} // Pass setImages to manage image URLs
+              Authorization={Authorization}
+            />
           </div>
           <div className="col-span-1 row-span-2">
             <PriceQuantityForm
               price={price}
-              quantity={quantity}
+              sumOfSizesQuantity={sumOfSizesQuantity}
               onPriceChange={(e) => setPrice(e.target.value)}
-              onQuantityChange={(e) => setQuantity(e.target.value)}
             />
           </div>
         </div>

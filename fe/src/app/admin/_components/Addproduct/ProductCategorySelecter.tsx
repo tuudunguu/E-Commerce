@@ -31,12 +31,12 @@ const CategorySelector = ({
           id="mainCategory"
           value={mainCategory}
           onChange={onMainCategoryChange}
-          className="w-full p-2 border rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-100 text-[#8B8E95]"
+          className="w-full p-2 border rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-100 text-black"
           aria-label="Main Category"
         >
           <option value="">Сонгох</option>
           {Categories.map((item) => (
-            <option key={item._id} value={item.name}>
+            <option key={item._id} value={item._id}>
               {item.name}
             </option>
           ))}

@@ -2,16 +2,14 @@ import React from 'react';
 
 type PriceQuantityFormProps = {
   price: string;
-  quantity: string;
+  sumOfSizesQuantity: number;
   onPriceChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onQuantityChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const PriceQuantityForm = ({
   price,
-  quantity,
+  sumOfSizesQuantity,
   onPriceChange,
-  onQuantityChange,
 }: PriceQuantityFormProps) => {
   return (
     <div className="p-4 rounded-lg shadow-lg bg-white w-full h-full">
@@ -29,7 +27,7 @@ const PriceQuantityForm = ({
             id="price"
             value={price}
             onChange={onPriceChange}
-            className="w-full p-2 border rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-100"
+            className="w-full p-2 border rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-100 text-black"
             placeholder="Үндсэн үнэ"
             aria-label="Base Price"
           />
@@ -43,15 +41,12 @@ const PriceQuantityForm = ({
           >
             Үлдэгдэл тоо ширхэг
           </label>
-          <input
-            type="text"
+          <div
             id="quantity"
-            value={quantity}
-            onChange={onQuantityChange}
-            className="w-full p-2 border rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-100"
-            placeholder="Үлдэгдэл тоо ширхэг"
-            aria-label="Quantity in Stock"
-          />
+            className="w-full p-2 border rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-100 text-black"
+          >
+            {sumOfSizesQuantity}
+          </div>
         </div>
       </div>
     </div>
