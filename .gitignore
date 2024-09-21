@@ -43,7 +43,7 @@ node_modules/
 *.node
 
 
-# be/node_modules/
+be/node_modules/
 fe/node_modules/
 
 
