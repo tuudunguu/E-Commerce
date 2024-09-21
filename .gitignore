@@ -42,7 +42,8 @@ node_modules/
 # Ignore all .node files
 *.node
 
-# Ignore specific large file causing issues
-be/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node
+
+# be/node_modules/
+fe/node_modules/
 
 
