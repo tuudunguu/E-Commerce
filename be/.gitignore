@@ -1,0 +1,9 @@
+
+# Ignore all node_modules directories
+node_modules/
+be/node_modules/
+fe/node_modules/
+
+# Ignore all .node files
+*.node
+
