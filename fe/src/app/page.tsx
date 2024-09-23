@@ -1,6 +1,6 @@
 import { FirstProduct } from '@/components/FirstProduct';
 import { Footer } from '@/components/Footer';
-import { Header } from '@/components/Header';
+import { Header } from '@/components/header';
 import { GridProduct } from '@/components/GridProduct';
 
 export default function Home() {

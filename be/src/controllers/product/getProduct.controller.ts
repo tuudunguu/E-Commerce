@@ -3,9 +3,9 @@ import { ProductModel } from '../../models';
 
 export const getProductController: RequestHandler = async (req, res) => {
   try {
-    const categoriesData = await ProductModel.find({}).populate('Category');
+    const productsData = await ProductModel.find({}).populate('category');
 
-    res.json(categoriesData);
+    res.json(productsData);
   } catch (error) {
     console.error('Error logging in:', error);
     return res.status(500).json({ message: 'Internal server error' });

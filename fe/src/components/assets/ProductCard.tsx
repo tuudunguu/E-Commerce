@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 type SpecialProductCardProps = {
   img?: string;
   title?: string;
-  price?: string;
+  price?: number;
 };
 
 export const ProductCard = ({ img, title, price }: SpecialProductCardProps) => {
@@ -19,13 +19,11 @@ export const ProductCard = ({ img, title, price }: SpecialProductCardProps) => {
       <div className="w-full relative  overflow-hidden rounded-2xl cursor-pointer">
         <div className="w-full h-full  transform transition-transform duration-300 hover:scale-110">
           {img && (
-            <Image
-              src={`/${img}`}
-              alt="Product image"
-              width={4000}
-              height={4000}
-              className="rounded-2xl w-full h-full object-contain "
-              quality={100}
+            <img
+              src={img}
+              alt={title}
+              className='w-full h-full object-cover'
+            
             />
           )}
         </div>
