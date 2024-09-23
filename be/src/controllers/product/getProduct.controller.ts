@@ -3,7 +3,7 @@ import { ProductModel } from '../../models';
 
 export const getProductController: RequestHandler = async (req, res) => {
   try {
-    const categoriesData = await ProductModel.find();
+    const categoriesData = await ProductModel.find({}).populate('Category');
 
     res.json(categoriesData);
   } catch (error) {

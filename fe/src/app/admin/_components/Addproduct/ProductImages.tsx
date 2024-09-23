@@ -66,7 +66,11 @@ const ProductImages = ({
             key={index}
             className="w-24 h-24 border-2 border-dashed border-gray-300 flex justify-center items-center rounded-md"
           >
-            <img src={image} alt={`Product ${index}`} />
+            <img
+              src={image}
+              alt={`Product ${index}`}
+              className="w-full h-full object-cover"
+            />
           </div>
         ))}
 

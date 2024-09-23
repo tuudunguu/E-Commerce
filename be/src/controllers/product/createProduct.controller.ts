@@ -3,7 +3,7 @@ import { ProductModel } from '../../models';
 
 export const createProductController: RequestHandler = async (req, res) => {
   try {
-    const { productName, description, images, price, category, sizes } =
+    const { productName, description, images, price, mainCategory, sizes } =
       req.body;
 
     const sumOfSizesQuantity = sizes.reduce(
@@ -13,14 +13,16 @@ export const createProductController: RequestHandler = async (req, res) => {
       0
     );
 
+    const numericPrice = parseInt(price, 10);
+
     console.log('req.body:', req.body);
 
     await ProductModel.create({
       name: productName,
       description: description,
-      category: category,
+      category: mainCategory,
       sizes: sizes,
-      price: price,
+      price: numericPrice,
       images: images,
       quantity: sumOfSizesQuantity,
       createdAt: new Date(),

@@ -34,30 +34,6 @@ export const AdminAddProduct = () => {
 
   console.log('sizes', sizes);
 
-  // Handle Cloudinary image upload
-  const uploadImageToCloudinary = async (file: File) => {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    // Upload the image to your backend route that handles Cloudinary
-    const response = await axios.post('http://localhost:3001/upload', formData);
-
-    // Return the URL of the uploaded image from Cloudinary
-    return response.data.secure_url;
-  };
-
-  const handleAddImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-
-      // Upload the selected image to Cloudinary
-      const imageUrl = await uploadImageToCloudinary(file);
-
-      // Add the returned image URL to the images array
-      setImages([...images, imageUrl]);
-    }
-  };
-
   const handleAddSize = (size: string) => {
     if (sizes.some((s) => s.size === size)) {
       setSizes(sizes.filter((s) => s.size !== size));
