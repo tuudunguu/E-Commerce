@@ -4,19 +4,22 @@ import Image from 'next/image';
 
 import { FaRegHeart } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 type SpecialProductCardProps = {
   img?: string;
   title?: string;
   price?: number;
+  id?: string
 };
 
-export const ProductCard = ({ img, title, price }: SpecialProductCardProps) => {
+export const ProductCard = ({ img, title, price, id }: SpecialProductCardProps) => {
   const [heart, setHeart] = useState(false);
 
   return (
+     <Link href={`/Products/${id}`}>
     <div className="w-full h-full  flex justify-between gap-2 flex-col ">
-      <div className="w-full relative  overflow-hidden rounded-2xl cursor-pointer">
+      <div className="w-full h-full relative  overflow-hidden rounded-2xl cursor-pointer">
         <div className="w-full h-full  transform transition-transform duration-300 hover:scale-110">
           {img && (
             <img
@@ -31,9 +34,10 @@ export const ProductCard = ({ img, title, price }: SpecialProductCardProps) => {
       </div>
 
       <div className="flex flex-col gap-1">
-        <h5 className="text-base text-black">{title}</h5>
+        <div className='w-full h-8 overflow-auto '><h5 className="text-base text-black">{title}</h5></div>
         <h5 className="font-bold text-base text-black ">{price}</h5>
       </div>
     </div>
+    </Link>
   );
 };

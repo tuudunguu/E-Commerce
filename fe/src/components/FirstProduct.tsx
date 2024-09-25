@@ -36,7 +36,7 @@ export const FirstProduct = () => {
 
       try {
         // Fetch only one product
-        const response = await api.get('http://localhost:3001/product/get?page=1&per_page=1', {
+        const response = await api.get('http://localhost:3001/product/?page=1&per_page=1', {
           headers: {
             Authorization: `Bearer ${Authorization}`,
           },
