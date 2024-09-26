@@ -21,7 +21,7 @@ export const AdminAddProduct = () => {
   const [productName, setProductName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState<string>('');
-  const [images, setImages] = useState<string[]>([]); // This stores URLs of uploaded images
+  const [images, setImages] = useState<string[]>([]); 
   const [mainCategory, setMainCategory] = useState<string>('');
   const [sizes, setSizes] = useState<SizeItem[]>([]);
 

@@ -14,6 +14,13 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+
+  likes:{
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Product",
+    required: true
+
+  },
   createdAt: {
     type: Date,
     required: true,
