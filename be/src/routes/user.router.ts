@@ -3,7 +3,8 @@ import {
   loginUserController,
   createUserController,
   getUserByIdController,
-  updateLikeController
+  updateLikeController,
+  getUserSaveController
 } from '../controllers/user';
 
 const authRouter = Router();
@@ -13,5 +14,6 @@ authRouter
   .post('/login', loginUserController)
   .get('/:id', getUserByIdController)
   .post('/updateLike', updateLikeController)
+  .get("/savedProduct" ,getUserSaveController )
 
 export { authRouter };

@@ -14,7 +14,37 @@ type SpecialProductCardProps = {
 
 export const ProductCard = ({ img, title, price, id }: SpecialProductCardProps) => {
   const [like, setLike] = useState<boolean>(false); 
+  const [user , setUser]=useState<string>()
   const [Authorization, setAuthorization] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      if (!Authorization) {
+        console.error('Authorization token is missing');
+        return;
+      }
+
+      try {
+        const response = await api.get('http://localhost:3001/user/me', {
+          headers: {
+            Authorization: `Bearer ${Authorization}`,
+          },
+        });
+
+        setUser(response.data); 
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    if (Authorization) {
+      getUser();
+    }
+  }, [Authorization]);
+
+  
+
+
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -29,7 +59,7 @@ export const ProductCard = ({ img, title, price, id }: SpecialProductCardProps) 
       return;
     }
 
-    const NewLike = { id };
+    const NewLike = { id , user };
     console.log("id",id)
 
     try {

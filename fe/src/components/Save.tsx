@@ -2,17 +2,60 @@
 
 import { Container } from './assets/Container';
 import { FaHeart } from 'react-icons/fa';
+import { useEffect , useState } from 'react';
+import { api } from '@/lib';
 
 export const Save = () => {
-  const wishlistItems = [
-    { title: 'Chunky Glyph Tee', price: '120’000₮', image: 'hat.png' },
-    { title: 'Doodle Hoodie', price: '120’000₮', image: 'hat.png' },
-    { title: 'Local Styles Crewneck', price: '120’000₮', image: 'hat.png' },
-  ];
+  type Product = {
+    _id: string;
+    name: string;
+    description: string;
+    images: string[]; // Use string[] because images will likely be URLs
+    price: string;
+    category: string[];
+    sizes: { size: string; quantity: number }[];
+    quantity: number;
+  };
 
-  const totalItems = wishlistItems.length;
-  const totalPrice = wishlistItems.reduce(
-    (total, item) => total + parseInt(item.price.replace(/[^\d]/g, '')),
+
+  const [Authorization, setAuthorization] = useState<string | null>(null);
+  const [savedProducts, setSavedProducts] = useState<Product[]>([]);
+
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setAuthorization(localStorage.getItem('token'));
+    }
+  }, []);
+
+  useEffect(() => {
+    const getProductData = async () => {
+      if (!Authorization) {
+        console.error('Authorization token is missing');
+        return;
+      }
+
+      try {
+        const response = await api.get('http://localhost:3001/auth/savedProduct', {
+          headers: {
+            Authorization: `Bearer ${Authorization}`,
+          },
+        });
+
+        setSavedProducts(response.data); // Set the products array from API response
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    if (Authorization) {
+      getProductData();
+    }
+  }, [Authorization]);
+
+  const totalItems = savedProducts.length;
+  const totalPrice = savedProducts.reduce(
+    (total, item) => total + (item.price.replace(/[^\d]/g, '')),
     0
   );
 
@@ -24,16 +67,16 @@ export const Save = () => {
           <h2 className="font-bold text-lg mb-4">Хадгалсан бараа</h2>
 
           {/* Wishlist Items */}
-          {wishlistItems.map((item, index) => (
+          {savedProducts.map((item, index) => (
             <div key={index} className="flex items-center justify-between mb-4">
               <div className="flex items-center">
                 <img
-                  src={item.image}
-                  alt={item.title}
+                  src={item.images[0]}
+                  alt={item.name}
                   className="w-16 h-16 rounded mr-4"
                 />
                 <div>
-                  <p className="font-semibold">{item.title}</p>
+                  <p className="font-semibold">{item.name}</p>
                   <p className="text-gray-500">{item.price}</p>
                   <button className="bg-blue-500 text-white px-4 py-1 rounded-md text-sm mt-2">
                     Сагслах
@@ -46,8 +89,8 @@ export const Save = () => {
 
           {/* Total Summary */}
           <div className="border-t pt-4 mt-4 flex justify-between">
-            <p className="font-bold">Нийт: {totalItems} бараа</p>
-            <p className="font-bold">{totalPrice.toLocaleString()}₮</p>
+            <p className="font-bold">Нийт:120000 бараа</p>
+            <p className="font-bold">160000₮</p>
           </div>
         </div>
       </div>
