@@ -32,7 +32,7 @@ export const AdminAddProduct = () => {
     0
   );
 
-  console.log('sizes', sizes);
+
 
   const handleAddSize = (size: string) => {
     if (sizes.some((s) => s.size === size)) {

@@ -15,7 +15,7 @@ export const createProductController: RequestHandler = async (req, res) => {
 
     const numericPrice = parseInt(price, 10);
 
-    console.log('req.body:', req.body);
+
 
     await ProductModel.create({
       name: productName,

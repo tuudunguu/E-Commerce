@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }: PropsChildren) => {
 
       setUser(res.data.user);
 
-      console.log('res:', res);
+     
 
       toast.success('Login successful');
 
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }: PropsChildren) => {
   };
 
   const register = async (email: string, password: string, name: string) => {
-    console.log('password', password);
+    
     try {
       await api.post('/auth/create', {
         name,

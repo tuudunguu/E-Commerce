@@ -12,15 +12,15 @@ const authMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log("mid")
   if (req.path.startsWith('/auth')) return next(); // Skip auth for "/auth" routes
 
   const auth = req.headers.authorization;
 
-  console.log('auth:', auth);
 
   const token = auth?.split(' ')[1]; // Extract token from header
   if (!token) return res.status(401).json({ error: 'Please log in!' }); // No token, respond 401
-  console.log(token, 'hellooo');
+
 
   try {
     req.user = jwt.verify(
@@ -28,7 +28,7 @@ const authMiddleware = (
       process.env.JWT_SECRET as string
     ) as JwtPayload; // Verify token
 
-    console.log(req.user, 'helloooooooo');
+
 
     next(); // Continue if valid
   } catch {

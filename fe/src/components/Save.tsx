@@ -53,11 +53,11 @@ export const Save = () => {
     }
   }, [Authorization]);
 
-  const totalItems = savedProducts.length;
-  const totalPrice = savedProducts.reduce(
-    (total, item) => total + (item.price.replace(/[^\d]/g, '')),
-    0
-  );
+  // const totalItems = savedProducts.length;
+  // const totalPrice = savedProducts.reduce(
+  //   (total, item) => total + (item.price.replace(/[^\d]/g, '')),
+  //   0
+  // );
 
   return (
     <Container className="bg-[#f6f6f6]">

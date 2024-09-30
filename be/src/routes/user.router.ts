@@ -10,10 +10,10 @@ import {
 const authRouter = Router();
 
 authRouter
-  .post('/create', createUserController)
-  .post('/login', loginUserController)
-  .get('/:id', getUserByIdController)
-  .post('/updateLike', updateLikeController)
-  .get("/savedProduct" ,getUserSaveController )
+.post('/create', createUserController)
+.post('/login', loginUserController)
+.post('/updateLike', updateLikeController)
+.get('/savedProduct/:id', getUserSaveController) 
+.get('/:id', getUserByIdController)
 
 export { authRouter };

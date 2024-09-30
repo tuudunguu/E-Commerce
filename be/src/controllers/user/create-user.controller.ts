@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 export const createUserController: RequestHandler = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    console.log('req.body:', req.body);
+
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);

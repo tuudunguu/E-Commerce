@@ -25,7 +25,6 @@ export const ProductOfPage = () => {
   const [Authorization, setAuthorization] = useState<string | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
 
-  console.log("products:", products)
 
   // Get token from localStorage when the component mounts
   useEffect(() => {

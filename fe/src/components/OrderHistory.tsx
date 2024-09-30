@@ -38,7 +38,7 @@ type OrderHistoryProps = {
 export const OrderHistory = () => {
   const [expanded, setExpanded] = useState<number | null>(null);
 
-  console.log('expanded:', expanded);
+ 
 
   const toggleExpanded = ({ index }: OrderHistoryProps) => {
     if (expanded === index) {

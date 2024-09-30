@@ -60,7 +60,7 @@ export const ProductCard = ({ img, title, price, id }: SpecialProductCardProps) 
     }
 
     const NewLike = { id , user };
-    console.log("id",id)
+
 
     try {
 
