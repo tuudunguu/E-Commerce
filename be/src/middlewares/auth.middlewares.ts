@@ -1,39 +1,38 @@
-import { Request, Response, NextFunction } from 'express'; // Import types
-import jwt, { JwtPayload } from 'jsonwebtoken'; // Import JWT
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
 
-// Extend Request type to include user property
-interface AuthRequest extends Request {
-  user?: JwtPayload;
+export interface User {
+  name: string;
+  email: string;
+  _id: string;
+  path: string;
+  headers: string
 }
 
-// Middleware to verify JWT tokens
-const authMiddleware = (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-) => {
-  console.log("mid")
-  if (req.path.startsWith('/auth')) return next(); // Skip auth for "/auth" routes
+declare global {
+  namespace Express {
+      interface Request {
+          user: User
+      }
+  }
+}
+
+const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  if (req.path.startsWith('/auth')) return next();
 
   const auth = req.headers.authorization;
+  const token = auth?.split(' ')[1];
 
-
-  const token = auth?.split(' ')[1]; // Extract token from header
-  if (!token) return res.status(401).json({ error: 'Please log in!' }); // No token, respond 401
-
+  if (!token) return res.status(401).json({ error: 'Please log in!' });
 
   try {
-    req.user = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string
-    ) as JwtPayload; // Verify token
+    req.user = jwt.verify(token, process.env.JWT_SECRET!) as User
 
-
-
-    next(); // Continue if valid
+    next();
   } catch {
-    return res.status(401).json({ error: 'Invalid or expired token!' }); // Invalid token, respond 401
+    return res.status(401).json({ error: 'Invalid or expired token!' });
   }
 };
 
-export { authMiddleware }; // Export middleware
+export { authMiddleware };
+

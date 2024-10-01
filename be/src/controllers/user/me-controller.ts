@@ -1,22 +1,22 @@
 import { Request, Response } from 'express';
+import { User } from '../../middlewares/auth.middlewares';
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-}
 
-interface AuthenticatedRequest extends Request {
-  user?: User;
+declare global {
+  namespace Express {
+      interface Request {
+          user: User
+      }
+  }
 }
 
 const getMe = async (
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response
 ): Promise<void> => {
   try {
     const user = req.user;
+    console.log("user" , user )
 
 
     res.json(user);

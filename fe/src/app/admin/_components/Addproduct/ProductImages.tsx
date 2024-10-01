@@ -1,7 +1,7 @@
-'use client'; // Add this to ensure the component is treated as a client-side component
+'use client'; 
 
 import React from 'react';
-import { api } from '@/lib'; // Assuming you're using axios through an api instance
+import { api } from '@/lib';
 
 type ProductImagesProps = {
   images: string[]; // Array of image URLs

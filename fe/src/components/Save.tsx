@@ -36,7 +36,7 @@ export const Save = () => {
       }
 
       try {
-        const response = await api.get('http://localhost:3001/auth/savedProduct', {
+        const response = await api.get('http://localhost:3001/product/savedProduct', {
           headers: {
             Authorization: `Bearer ${Authorization}`,
           },

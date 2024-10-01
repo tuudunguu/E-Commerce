@@ -18,6 +18,8 @@ type SizeItem = {
 };
 
 export const AdminAddProduct = () => {
+
+  
   const [productName, setProductName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState<string>('');
