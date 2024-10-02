@@ -6,21 +6,22 @@ import { useEffect , useState } from 'react';
 import { api } from '@/lib';
 
 export const Save = () => {
-  type Product = {
+type Product = {
     _id: string;
     name: string;
     description: string;
-    images: string[]; // Use string[] because images will likely be URLs
-    price: string;
+    images: string[]; 
+    price: string | number; 
     category: string[];
     sizes: { size: string; quantity: number }[];
     quantity: number;
+    like: Product;
   };
-
 
   const [Authorization, setAuthorization] = useState<string | null>(null);
   const [savedProducts, setSavedProducts] = useState<Product[]>([]);
 
+  console.log("savedProducts:", savedProducts );
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -53,11 +54,18 @@ export const Save = () => {
     }
   }, [Authorization]);
 
-  // const totalItems = savedProducts.length;
-  // const totalPrice = savedProducts.reduce(
-  //   (total, item) => total + (item.price.replace(/[^\d]/g, '')),
-  //   0
-  // );
+  const totalItems = savedProducts.length;
+
+  const totalPrice = savedProducts.reduce((total, item) => {
+    // Check if item.price is a string
+    const price = typeof item.price === 'string'
+      ? Number(item.price.replace(/[^\d]/g, ''))  // Clean up string prices
+      : typeof item.price === 'number'
+      ? item.price  // Use the number directly
+      : 0;  // Default to 0 if price is invalid
+
+    return total + price;
+  }, 0);
 
   return (
     <Container className="bg-[#f6f6f6]">
@@ -89,11 +97,12 @@ export const Save = () => {
 
           {/* Total Summary */}
           <div className="border-t pt-4 mt-4 flex justify-between">
-            <p className="font-bold">Нийт:120000 бараа</p>
-            <p className="font-bold">160000₮</p>
+            <p className="font-bold">Нийт: {totalItems} бараа</p> {/* Show total items */}
+            <p className="font-bold">{totalPrice}₮</p> {/* Show total price */}
           </div>
         </div>
       </div>
     </Container>
   );
 };
+

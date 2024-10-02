@@ -10,8 +10,8 @@ import {
 const productRouter = Router();
 
 productRouter.get('/', getProductsController)
-productRouter.get('/:id', getProductController);
-productRouter.post('/create', createProductController);
 productRouter.get('/savedProduct', getSaveController) 
+productRouter.post('/create', createProductController);
+productRouter.get('/:id', getProductController);
 
 export { productRouter };
