@@ -18,10 +18,20 @@ type Product = {
     like: Product;
   };
 
+type User = {
+  _id: string;
+  name: string;
+  email: string;
+}
+
+
   const [Authorization, setAuthorization] = useState<string | null>(null);
   const [savedProducts, setSavedProducts] = useState<Product[]>([]);
+  const [user , setUser]=useState<User[]>([]);
+  const [id , setId]=useState<String>()
 
-  console.log("savedProducts:", savedProducts );
+  console.log("savedProducts:" , savedProducts)
+ 
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -67,6 +77,56 @@ type Product = {
     return total + price;
   }, 0);
 
+
+//fetch user information
+useEffect(()=>{
+  const getUser = async ()=>{
+    if (!Authorization){
+      console.error('Authorization token is missing');
+    return;
+    }
+
+    try {
+      const response = await api.get('http://localhost:3001/user/me' , {headers: {
+        Authorization: `Bearer ${Authorization}`, 
+      }})
+
+      setUser(response.data)
+    }catch (error) {
+      console.error('Error fetching user:', error);
+    }
+  }; if (Authorization) {
+    getUser();
+  }
+}, [Authorization])
+
+//create Product cart
+
+const AddProductCart =async () => {
+  if (!Authorization) {
+    console.error('Authorization token is missing');
+    return
+  }
+try {
+  const newCartProduct = { id , user};
+
+  const response = await api.post(
+    "http://localhost:3001/buySteps/addProductCart", 
+    newCartProduct , 
+    {headers: {
+      Authorization:`Bearer ${Authorization}`
+    }}
+  )
+  console.log( response.data)
+
+}catch (error) {
+  console.error('Error adding cartProduct:', error);
+}
+
+
+}
+
+
   return (
     <Container className="bg-[#f6f6f6]">
       <div className="w-will h-fit  px-[265px] pt-24 pb-28">
@@ -75,8 +135,8 @@ type Product = {
           <h2 className="font-bold text-lg mb-4">Хадгалсан бараа</h2>
 
           {/* Wishlist Items */}
-          {savedProducts.map((item, index) => (
-            <div key={index} className="flex items-center justify-between mb-4">
+          {savedProducts.map((item, ) => (
+            <div key={item._id} className="flex items-center justify-between mb-4">
               <div className="flex items-center">
                 <img
                   src={item.images[0]}
@@ -86,7 +146,7 @@ type Product = {
                 <div>
                   <p className="font-semibold">{item.name}</p>
                   <p className="text-gray-500">{item.price}</p>
-                  <button className="bg-blue-500 text-white px-4 py-1 rounded-md text-sm mt-2">
+                  <button onClick={()=>{setId(item._id); AddProductCart();}} className="bg-blue-500 text-white px-4 py-1 rounded-md text-sm mt-2" >
                     Сагслах
                   </button>
                 </div>

@@ -7,6 +7,7 @@ import * as dotenv from 'dotenv';
 import { userRouter } from './routes/Me.router';
 import { categoryRouter } from './routes/category.router';
 import { productRouter } from './routes/product.router';
+import { buySteps} from './routes/buySteps.router';
 import multer, { memoryStorage } from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 
@@ -24,6 +25,7 @@ app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/category', categoryRouter);
 app.use('/product', productRouter);
+app.use('/buySteps', buySteps )
 
 
 cloudinary.config({

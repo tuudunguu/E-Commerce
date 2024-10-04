@@ -21,6 +21,13 @@ const userSchema = new Schema({
     required: true
 
   },
+
+  cartProduct:{
+    type:[mongoose.Schema.Types.ObjectId],
+    ref:"Product",
+    requred:true
+  },
+  
   createdAt: {
     type: Date,
     required: true,

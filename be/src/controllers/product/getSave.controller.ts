@@ -14,7 +14,7 @@ declare global {
 export const getSaveController = async (req: Request, res: Response) => {
   try {
     
-console.log("req.user:", req.user.id)
+
 
     const userId = req.user.id;
      const populatedData = await userModel.findOne({ _id: userId }).populate("likes");

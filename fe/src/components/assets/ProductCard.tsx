@@ -25,11 +25,12 @@ type Product = {
 };
 
 export const ProductCard = ({ img, title, price, id }: SpecialProductCardProps) => {
-  const [like, setLike] = useState<boolean>(false); 
+  const [like, setLike] = useState<boolean>(false);
   const [user, setUser] = useState<string>();
   const [Authorization, setAuthorization] = useState<string | null>(null);
   const [savedProducts, setSavedProducts] = useState<Product[]>([]);
 
+  // Fetch the user information
   useEffect(() => {
     const getUser = async () => {
       if (!Authorization) {
@@ -55,37 +56,14 @@ export const ProductCard = ({ img, title, price, id }: SpecialProductCardProps) 
     }
   }, [Authorization]);
 
+  // Set the authorization token from local storage
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setAuthorization(localStorage.getItem('token')); 
+      setAuthorization(localStorage.getItem('token'));
     }
   }, []);
 
-  const UpdateLike = async () => {
-    if (!Authorization) {
-      console.error('Authorization token is missing');
-      return;
-    }
-
-    const NewLike = { id, user };
-
-    try {
-      const response = await api.post(
-        'http://localhost:3001/auth/updateLike',
-        NewLike,
-        {
-          headers: {
-            Authorization: `Bearer ${Authorization}`,
-          },
-        }
-      );
-
-      console.log('Like updated:', response.data);
-    } catch (error) {
-      console.error('Error updating like:', error);
-    }
-  };
-
+  // Fetch the saved products and check if this product is liked
   useEffect(() => {
     const getProductData = async () => {
       if (!Authorization) {
@@ -100,7 +78,12 @@ export const ProductCard = ({ img, title, price, id }: SpecialProductCardProps) 
           },
         });
 
-        setSavedProducts(response.data); 
+        const products = response.data;
+        setSavedProducts(products);
+
+        // Check if the current product is liked and update the like state
+        const productLiked = products.some((product: { _id: string | undefined; }) => product._id === id);
+        setLike(productLiked);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
@@ -109,20 +92,37 @@ export const ProductCard = ({ img, title, price, id }: SpecialProductCardProps) 
     if (Authorization) {
       getProductData();
     }
-  }, [Authorization]);
+  }, [Authorization, id]);
 
-  
-  const handleLike = () => {
-    const product = savedProducts.find((savedProduct) => savedProduct._id === id);
-    if(product){
-      setLike(!like)
+  // Handle like/unlike toggle
+  const UpdateLike = async () => {
+    if (!Authorization) {
+      console.error('Authorization token is missing');
+      return;
     }
 
+    try {
+      // Send a POST request to the updateLike endpoint
+      const NewLike = { id, user };
 
-    UpdateLike();   
- 
+      const response = await api.post(
+        'http://localhost:3001/auth/updateLike',
+        NewLike,
+        {
+          headers: {
+            Authorization: `Bearer ${Authorization}`,
+          },
+        }
+      );
+
+      console.log(like ? 'Product unliked' : 'Product liked', response.data);
+
+      // Toggle the like state in the frontend
+      setLike(!like);
+    } catch (error) {
+      console.error('Error updating like status:', error);
+    }
   };
-  
 
   return (
     <div className="w-full h-full flex justify-between gap-2 flex-col">
@@ -139,9 +139,9 @@ export const ProductCard = ({ img, title, price, id }: SpecialProductCardProps) 
           </div>
         </Link>
         <FaRegHeart
-          onClick={handleLike}
+          onClick={UpdateLike}
           className={`absolute right-4 top-5 w-6 h-6 cursor-pointer transform transition-transform duration-300 hover:scale-110 ${
-          like ? 'text-blue-500' : 'text-black'
+            like ? 'text-blue-500' : 'text-black'
           }`}
         />
       </div>
